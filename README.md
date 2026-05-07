@@ -210,7 +210,7 @@ El epsilon disminuye durante el entrenamiento: `ε ← ε × 0.995`
 
 ---
 
-## Archivos clave que generas
+## Archivos clave que genera el proyecto
 
 Después de ejecutar `train.py`, se genera:
 
@@ -219,8 +219,11 @@ Tabla de valores Q para cada par (estado, acción). Formato:
 
 ```csv
 STATE,UP,DOWN,RIGHT,LEFT,PICK_OBJECT,OPEN_DOOR
-(1,1,0,0,0),-0.15,0.05,0.20,-0.05,0.00,0.00
-(1,1,0,0,1),-0.12,0.08,0.25,0.02,0.10,0.00
+"(1, 1, 0, 0, 0)",13.93,14.77,14.77,13.93,13.93,13.93,11.03
+"(1, 1, 0, 0, 1)",0.0,0.0,0.0,0.0,0.0,0.0
+"(1, 1, 0, 1, 0)",0.0,0.0,0.0,0.0,0.0,0.0
+"(1, 1, 0, 1, 1)",0.0,0.0,0.0,0.0,0.0,0.0
+"(1, 1, 1, 0, 0)",12.23,12.98,12.98,12.23,12.23,9.33
 ...
 ```
 
