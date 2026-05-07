@@ -247,4 +247,4 @@ class rl_game_app:
 
 if __name__ == "__main__":
     app = rl_game_app()
-    app.run(step_interval=1.0)
+    app.run(step_interval=5.0)
