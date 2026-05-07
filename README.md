@@ -1,6 +1,15 @@
-# Proyecto de Aprendizaje por Refuerzo 
+# **maia-proyecto-apr** #
+Código Proyecto Aprendizaje por Refuerzo 2026-12
 
-**Equipo 30 | 202612 | Uniandes**
+## Team30 ##
+### **Marco Tulio Torres-Meneses** ###
+Correo-e: mar-torr@uniandes.edu.co</br>
+Código: 200113749</br>
+mttm11complete-gif</br>
+### **Marcelo César Augusto Torres-Ortiz** ###
+Correo-e: mc.torreso1@uniandes.edu.co</br>
+Código: 201011084</br>
+mc-torreso1-uniandes-edu-co</br>
 
 ## Descripción General
 
