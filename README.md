@@ -94,6 +94,8 @@ Implementa el algoritmo Q-Learning para aprender la política óptima.
 
 ### 3. **Interfaz Visual (game.py)**
 
+![Descripción de la imagen](app_proyecto_apr.png)
+
 Aplicación Pygame que permite visualizar al agente en acción.
 
 #### Características Visuales
