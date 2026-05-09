@@ -5,8 +5,14 @@ from agent import q_learning_agent
 
 
 class rl_game_app:
+    """Aplicación visual en Pygame para ejecutar el agente entrenado."""
 
     def __init__(self):
+        """Inicializa Pygame, el entorno, el agente y los elementos visuales.
+
+        No recibe parámetros; la aplicación configura automáticamente el tablero,
+        carga la Q-table y prepara la ventana gráfica.
+        """
         pygame.init()
 
         self.sum_reward = 0
@@ -54,6 +60,7 @@ class rl_game_app:
         }
 
     def reset(self):
+        """Reinicia la simulación y limpia el estado de la interfaz."""
         self.state = self.env.reset()
         self.done = False
         self.last_state = None
@@ -64,6 +71,12 @@ class rl_game_app:
         self.sum_reward = 0
 
     def cell_rect(self, r, c):
+        """Calcula el rectángulo de pantalla correspondiente a una celda.
+
+        Args:
+            r: Fila de la celda.
+            c: Columna de la celda.
+        """
         return pygame.Rect(
             (c - 1) * self.cell_size,
             (r - 1) * self.cell_size,
@@ -72,6 +85,7 @@ class rl_game_app:
         )
 
     def draw_grid(self):
+        """Dibuja la cuadrícula base del tablero."""
         self.screen.fill(self.colors["bg"])
         for r in range(1, self.rows + 1):
             for c in range(1, self.cols + 1):
@@ -79,6 +93,7 @@ class rl_game_app:
                 pygame.draw.rect(self.screen, self.colors["grid"], rect, 1)
 
     def draw_static(self):
+        """Dibuja paredes, puerta, llave, bola y salida."""
         _, _, kp, bp, do = self.state
 
         # paredes
@@ -103,6 +118,7 @@ class rl_game_app:
         self.draw_text_center("E", self.env.exit, (255, 255, 255))
 
     def draw_agent(self):
+        """Dibuja al agente en su posición actual."""
         r, c, *_ = self.state
         rect = self.cell_rect(r, c)
         pygame.draw.polygon(self.screen, self.colors["agent"], [
@@ -113,6 +129,7 @@ class rl_game_app:
         self.draw_text_center("A", (r, c), (255, 255, 255))
 
     def draw_panel(self):
+        """Dibuja el panel inferior con estado, acción y recompensa."""
         y = self.rows * self.cell_size
         pygame.draw.rect(self.screen, self.colors["panel"], (0, y, self.width, self.panel_height))
 
@@ -162,6 +179,14 @@ class rl_game_app:
             self.screen.blit(surface, prompt_rect)
 
     def draw_text_center(self, text, pos, color, bg=None):
+        """Renderiza texto centrado dentro de una celda.
+
+        Args:
+            text: Texto a mostrar.
+            pos: Tupla (fila, columna) de la celda.
+            color: Color del texto.
+            bg: Color de fondo opcional para resaltado.
+        """
         r, c = pos
         rect = self.cell_rect(r, c)
         if bg:
@@ -172,6 +197,7 @@ class rl_game_app:
         self.screen.blit(surface, text_rect)
 
     def step_forward(self):
+        """Avanza un paso automático usando la política actual del agente."""
         if self.done:
             return
         s = self.state
@@ -193,6 +219,11 @@ class rl_game_app:
         )
 
     def render(self, state=None):
+        """Redibuja completamente la escena en pantalla.
+
+        Args:
+            state: Estado opcional a mostrar. Si se omite, usa el estado actual.
+        """
         if state is not None:
             self.state = state
 
@@ -205,6 +236,11 @@ class rl_game_app:
         pygame.event.pump()
 
     def run(self, step_interval = 5.0):
+        """Ejecuta el bucle principal de la interfaz visual.
+
+        Args:
+            step_interval: Tiempo entre pasos automáticos, en segundos.
+        """
         self.agent.epsilon = 0
         self.reset()
         self.started = False

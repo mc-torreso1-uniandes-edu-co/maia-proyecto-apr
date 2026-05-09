@@ -5,8 +5,24 @@ import pandas as pd
 import time
 
 class q_learning_agent:
+    """Agente Q-learning que aprende una política a partir del entorno.
+
+    El agente mantiene una Q-table indexada por estado y acción, y ofrece
+    utilidades para explorar, actualizar valores, guardar y cargar el modelo
+    aprendido.
+    """
 
     def __init__(self, env, alpha=0.1, gamma=0.95, epsilon=1.0, epsilon_min=0.1, epsilon_decay=0.995):
+        """Inicializa el agente con hiperparámetros y la tabla Q vacía.
+
+        Args:
+            env: Entorno con el que interactúa el agente.
+            alpha: Tasa de aprendizaje.
+            gamma: Factor de descuento para recompensas futuras.
+            epsilon: Probabilidad inicial de exploración.
+            epsilon_min: Valor mínimo permitido para epsilon.
+            epsilon_decay: Factor de decaimiento de epsilon.
+        """
         self.env = env
         self.alpha = alpha
         self.gamma = gamma
@@ -23,12 +39,22 @@ class q_learning_agent:
         self.q_table = np.zeros((len(self.states), len(self.actions)))
     
     def choose_action(self, state):
+        """Selecciona una acción usando exploración epsilon-greedy.
+
+        Args:
+            state: Estado actual del entorno.
+        """
         if random.uniform(0, 1) < self.epsilon:
             return random.choice(self.actions)
         else :
             return self.best_action(state)
     
     def best_action(self, state):
+        """Devuelve la mejor acción conocida evitando movimientos que no cambian el estado.
+
+        Args:
+            state: Estado desde el que se evalúan las acciones.
+        """
         s_idx = self.state_to_idx[state]
         action_indexes = list(range(len(self.actions)))
         action_indexes.sort(key=lambda idx: self.q_table[s_idx, idx], reverse=True)
@@ -42,6 +68,14 @@ class q_learning_agent:
         return self.actions[action_indexes[0]]
 
     def update_values(self, state, action, reward, next_state):
+        """Actualiza la Q-table con la regla clásica de Q-learning.
+
+        Args:
+            state: Estado actual.
+            action: Acción ejecutada.
+            reward: Recompensa observada.
+            next_state: Estado siguiente alcanzado.
+        """
         s = self.state_to_idx[state]
         a = self.action_to_idx[action]
         ns = self.state_to_idx[next_state]
@@ -51,6 +85,11 @@ class q_learning_agent:
         self.q_table[s, a] = update_q
 
     def step(self, action):
+        """Ejecuta una acción en el entorno y devuelve la transición obtenida.
+
+        Args:
+            action: Acción a ejecutar en el estado actual del entorno.
+        """
         next_state, reward, done = self.env.do_action(self.env.current_state, action)
         self.env.current_state = next_state
         self.env.steps += 1
@@ -61,10 +100,16 @@ class q_learning_agent:
         return next_state, reward, done, {"step": self.env.steps}
 
     def decay_epsilon(self):
+        """Reduce gradualmente la tasa de exploración."""
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 
     def save_q_table(self, path="q_table.csv"):
+        """Guarda la Q-table en un archivo CSV legible por pandas.
+
+        Args:
+            path: Ruta del archivo CSV de salida.
+        """
         rows = []
         for state, q_values in zip(self.states, self.q_table):
             row = {
@@ -76,6 +121,11 @@ class q_learning_agent:
         pd.DataFrame(rows).to_csv(path, index=False)
 
     def load_q_table(self, path="q_table.csv"):
+        """Carga la Q-table desde CSV, soportando varios formatos históricos.
+
+        Args:
+            path: Ruta del archivo CSV de entrada.
+        """
         df = pd.read_csv(path)
 
         if "STATE" in df.columns:
@@ -104,6 +154,11 @@ class q_learning_agent:
             self.q_table = df.to_numpy(dtype=float)
 
     def explore(self, episodes):
+        """Entrena al agente durante varios episodios y guarda la Q-table resultante.
+
+        Args:
+            episodes: Número de episodios de entrenamiento.
+        """
         count_not_terminal = 0
         count_is_terminal = 0
         sum_steps = 0
@@ -124,11 +179,19 @@ class q_learning_agent:
                 sum_steps += self.  env.steps
             else :
                 count_not_terminal += 1
+            
+            self.decay_epsilon()
 
         self.save_q_table()
         return count_is_terminal, count_not_terminal, sum_steps
 
     def explode(self, render_func=None, step_delay=1.0):
+        """Ejecuta un episodio en modo demostración imprimiendo cada transición.
+
+        Args:
+            render_func: Función opcional para dibujar o imprimir el estado.
+            step_delay: Tiempo de espera entre pasos, en segundos.
+        """
         state = self.env.reset()
         done = False
 

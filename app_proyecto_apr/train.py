@@ -2,6 +2,11 @@ from environment import door_key_ball_environment
 from agent import q_learning_agent
 
 def train(episodes=5000):
+    """Entrena al agente durante la cantidad de episodios indicada.
+
+    Args:
+        episodes: Número de episodios usados para el entrenamiento.
+    """
     env = door_key_ball_environment()
     agent = q_learning_agent(env)
 

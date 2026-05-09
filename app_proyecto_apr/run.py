@@ -4,6 +4,11 @@ import time
 
 
 def render(state):
+    """Imprime una representación ASCII del estado actual del tablero.
+
+    Args:
+        state: Estado del agente en formato (R, C, KP, BP, DO).
+    """
 
     grid = [["." for _ in range(9)] for _ in range(4)]
 
@@ -22,6 +27,7 @@ def render(state):
     print("-"*20)
 
 def run():
+    """Carga la Q-table y ejecuta una demostración en consola."""
     env = door_key_ball_environment()
     agent = q_learning_agent(env)
 

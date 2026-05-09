@@ -2,15 +2,14 @@ from itertools import product
 import pandas as pd
 
 class door_key_ball_environment:
-    """
-    Ambiente RL del proyecto:
-    Estado: S = (R, C, KP, BP, DO)
+    """Entorno de aprendizaje por refuerzo del proyecto puerta-llave-bola.
 
-    R  = fila del agente
-    C  = columna del agente
-    KP = llave recogida
-    BP = bola recogida
-    DO = puerta abierta
+    El estado se representa como S = (R, C, KP, BP, DO), donde:
+    R  = fila del agente.
+    C  = columna del agente.
+    KP = llave recogida.
+    BP = bola recogida.
+    DO = puerta abierta.
     """
 
     def __init__(
@@ -24,6 +23,18 @@ class door_key_ball_environment:
         initial_state=(3, 1, 0, 0, 0),
         max_steps=1000,
     ):
+        """Inicializa el tablero, los objetos, las recompensas y el estado actual.
+
+        Args:
+            board: Límites del tablero como ((fila_min, fila_max), (col_min, col_max)).
+            walls: Celdas que representan paredes.
+            door: Posición de la puerta.
+            key: Posición de la llave.
+            ball: Posición de la bola.
+            exit: Posición de la salida.
+            initial_state: Estado inicial del agente.
+            max_steps: Número máximo de pasos por episodio.
+        """
         self.board = board
         (self.min_row, self.max_row), (self.min_col, self.max_col) = board
 
@@ -78,25 +89,59 @@ class door_key_ball_environment:
         }
 
     def in_board(self, row, col):
+        """Indica si una posición está dentro de los límites del tablero.
+
+        Args:
+            row: Fila a validar.
+            col: Columna a validar.
+        """
         return (
             self.min_row <= row <= self.max_row
             and self.min_col <= col <= self.max_col
         )
 
     def is_wall(self, row, col):
+        """Indica si una celda corresponde a una pared.
+
+        Args:
+            row: Fila de la celda.
+            col: Columna de la celda.
+        """
         return (row, col) in self.walls
 
     def is_door(self, row, col):
+        """Indica si una celda corresponde a la puerta.
+
+        Args:
+            row: Fila de la celda.
+            col: Columna de la celda.
+        """
         return (row, col) == self.door
 
     def is_exit(self, row, col):
+        """Indica si una celda corresponde a la salida.
+
+        Args:
+            row: Fila de la celda.
+            col: Columna de la celda.
+        """
         return (row, col) == self.exit
 
     def is_terminal(self, state):
+        """Indica si el estado actual ya llegó a la salida.
+
+        Args:
+            state: Estado del agente en formato (R, C, KP, BP, DO).
+        """
         row, col, *_ = state
         return self.is_exit(row, col)
 
     def is_valid_agent_position(self, state):
+        """Valida que la posición del agente sea una celda transitable.
+
+        Args:
+            state: Estado del agente en formato (R, C, KP, BP, DO).
+        """
         row, col, *_ = state
 
         if not self.in_board(row, col):
@@ -108,9 +153,15 @@ class door_key_ball_environment:
         return True
 
     def get_currente_statet(self):
+        """Retorna el estado actual almacenado en el entorno."""
         return self.current_state
 
     def state_value(self, state=None):
+        """Retorna el valor inmediato del estado si es terminal.
+
+        Args:
+            state: Estado a evaluar. Si es None, usa el estado actual.
+        """
         if state is None:
             state = self.current_state
 
@@ -120,6 +171,11 @@ class door_key_ball_environment:
         return 0
 
     def get_possible_actions(self, state):
+        """Devuelve las acciones válidas desde un estado dado.
+
+        Args:
+            state: Estado del agente en formato (R, C, KP, BP, DO).
+        """
         row, col, kp, bp, do = state
         possible_actions = []
         
@@ -148,6 +204,11 @@ class door_key_ball_environment:
         return possible_actions
 
     def get_action_index(self, action):
+        """Obtiene el índice de una acción dentro de la lista de acciones.
+
+        Args:
+            action: Nombre de la acción.
+        """
         index = 0
         for a in self.actions:
             if a == action:
@@ -156,15 +217,27 @@ class door_key_ball_environment:
         raise ValueError(f"Acción no reconocida: {action}")
 
     def get_possible_states(self, state, action):
+        """Retorna el estado sucesor posible para una acción dada.
+
+        Args:
+            state: Estado de origen.
+            action: Acción a evaluar.
+        """
         next_state, reward, done = self.do_action(state, action)
         return [(next_state, reward, done)]
 
     def reset(self):
+        """Reinicia el entorno al estado inicial y pone el contador en cero."""
         self.current_state = self.initial_state
         self.steps = 0
         return self.current_state
 
     def step_current(self, action):
+        """Aplica una acción sobre el estado actual y avanza el entorno.
+
+        Args:
+            action: Acción a ejecutar.
+        """
         next_state, reward, done = self.do_action(self.current_state, action)
         self.current_state = next_state
         self.steps += 1
@@ -175,6 +248,12 @@ class door_key_ball_environment:
         return next_state, reward, done, {"step": self.steps}
 
     def do_action(self, state, action):
+        """Ejecuta una acción arbitraria sobre un estado dado.
+
+        Args:
+            state: Estado de partida.
+            action: Acción a ejecutar.
+        """
         row, col, *_ = state
 
         if self.is_terminal(state):
@@ -207,6 +286,14 @@ class door_key_ball_environment:
         return next_state, reward, False
 
     def do_move(self, state, new_row, new_col, action):
+        """Procesa un movimiento del agente y asigna la recompensa correspondiente.
+
+        Args:
+            state: Estado de partida.
+            new_row: Fila destino.
+            new_col: Columna destino.
+            action: Acción de movimiento ejecutada.
+        """
         row, col, kp, bp, do = state
 
         if not self.in_board(new_row, new_col):
@@ -241,6 +328,11 @@ class door_key_ball_environment:
         return next_state, self.rewards["VALID_MOVE_RIGHT_ROOM"]
 
     def do_pick_object(self, state):
+        """Procesa la acción de recoger un objeto si la condición es válida.
+
+        Args:
+            state: Estado del agente.
+        """
         row, col, kp, bp, do = state
 
         # Recoger llave.
@@ -256,6 +348,11 @@ class door_key_ball_environment:
         return state, self.rewards["INVALID_PICK_OBJECT"]
 
     def do_open_door(self, state):
+        """Intenta abrir la puerta cuando se cumplen las precondiciones.
+
+        Args:
+            state: Estado del agente.
+        """
         row, col, kp, bp, do = state
 
         if (row, col) == self.door and kp == 1 and bp == 1 and do == 0:
@@ -265,6 +362,7 @@ class door_key_ball_environment:
         return state, self.rewards["INVALID_OPEN_DOOR"]
 
     def get_states(self):
+        """Genera todos los estados válidos del espacio de estados."""
         states = []
 
         for row, col, kp, bp, do in product(
@@ -282,6 +380,7 @@ class door_key_ball_environment:
         return states
 
     def generate_transition_table(self):
+        """Construye una tabla de transiciones determinista para todo el entorno."""
         rows = []
 
         for state in self.get_states():
@@ -300,6 +399,7 @@ class door_key_ball_environment:
         return pd.DataFrame(rows)
 
     def describe(self):
+        """Devuelve un resumen legible de la configuración del entorno."""
         return {
             "state": "(R, C, KP, BP, DO)",
             "initial_state": self.initial_state,
