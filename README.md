@@ -34,6 +34,10 @@ maia-proyecto-apr/
    └── __pycache__/                   # Cache de Python
 ```
 
+### Documentación adicional
+
+- [Diagrama de clases y secuencias](app_proyecto_apr/diagramas.md)
+
 ---
 
 ## Componentes Principales

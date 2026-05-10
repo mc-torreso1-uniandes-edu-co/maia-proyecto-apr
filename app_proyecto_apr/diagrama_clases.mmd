@@ -1,0 +1,84 @@
+classDiagram
+    class door_key_ball_environment {
+        +board
+        +walls
+        +door
+        +key
+        +ball
+        +exit
+        +initial_state
+        +current_state
+        +max_steps
+        +actions
+        +rewards
+        +in_board(row, col)
+        +is_wall(row, col)
+        +is_door(row, col)
+        +is_exit(row, col)
+        +is_terminal(state)
+        +is_valid_agent_position(state)
+        +get_currente_statet()
+        +state_value(state)
+        +get_possible_actions(state)
+        +get_action_index(action)
+        +get_possible_states(state, action)
+        +reset()
+        +step_current(action)
+        +do_action(state, action)
+        +do_move(state, new_row, new_col, action)
+        +do_pick_object(state)
+        +do_open_door(state)
+        +get_states()
+        +generate_transition_table()
+        +describe()
+    }
+
+    class q_learning_agent {
+        +env
+        +alpha
+        +gamma
+        +epsilon
+        +epsilon_min
+        +epsilon_decay
+        +states
+        +actions
+        +state_to_idx
+        +action_to_idx
+        +q_table
+        +choose_action(state)
+        +best_action(state)
+        +update_values(state, action, reward, next_state)
+        +step(action)
+        +decay_epsilon()
+        +save_q_table(path)
+        +load_q_table(path)
+        +explore(episodes)
+        +explode(render_func, step_delay)
+    }
+
+    class rl_game_app {
+        +env
+        +agent
+        +state
+        +done
+        +started
+        +sum_reward
+        +reset()
+        +cell_rect(r, c)
+        +draw_grid()
+        +draw_static()
+        +draw_agent()
+        +draw_panel()
+        +draw_text_center(text, pos, color, bg)
+        +step_forward()
+        +render(state)
+        +run(step_interval)
+    }
+
+    q_learning_agent --> door_key_ball_environment : usa
+    rl_game_app --> door_key_ball_environment : usa
+    rl_game_app --> q_learning_agent : usa
+    train.py ..> door_key_ball_environment : instancia
+    train.py ..> q_learning_agent : instancia
+    run.py ..> door_key_ball_environment : instancia
+    run.py ..> q_learning_agent : instancia

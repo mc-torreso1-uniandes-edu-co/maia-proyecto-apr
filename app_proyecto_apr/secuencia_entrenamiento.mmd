@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+    actor Usuario
+    participant train as train.py
+    participant agent as q_learning_agent
+    participant env as door_key_ball_environment
+    participant fs as q_table.csv
+
+    Usuario->>train: Ejecuta python train.py
+    train->>env: Crear entorno
+    train->>agent: Crear agente(env)
+    loop Por cada episodio
+        agent->>env: reset()
+        env-->>agent: estado inicial
+        loop Hasta terminar episodio
+            agent->>agent: choose_action(state)
+            agent->>env: do_action(state, action)
+            env-->>agent: next_state, reward, done
+            agent->>agent: update_values(state, action, reward, next_state)
+        end
+        agent->>agent: decay_epsilon()
+    end
+    agent->>fs: save_q_table(q_table.csv)
+    fs-->>train: archivo guardado
+    train-->>Usuario: Resumen del entrenamiento
