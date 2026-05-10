@@ -42,6 +42,8 @@ maia-proyecto-apr/
 
 Define el mundo donde el agente aprende y actúa.
 
+📘 Documentación detallada: [app_proyecto_apr/environment.md](app_proyecto_apr/environment.md)
+
 #### Características:
 - **Tablero**: Cuadrícula 4x9 con dos habitaciones separadas por paredes
 - **Objetos**:
@@ -84,6 +86,8 @@ Representado como una tupla: `S = (R, C, KP, BP, DO)`
 
 Implementa el algoritmo Q-Learning para aprender la política óptima.
 
+📘 Documentación detallada: [app_proyecto_apr/agent.md](app_proyecto_apr/agent.md)
+
 #### Parámetros
 | Parámetro | Valor | Descripción |
 |-----------|-------|-------------|
@@ -106,6 +110,8 @@ Implementa el algoritmo Q-Learning para aprender la política óptima.
 ![Descripción de la imagen](app_proyecto_apr.png)
 
 Aplicación Pygame que permite visualizar al agente en acción.
+
+📘 Documentación detallada: [app_proyecto_apr/game.md](app_proyecto_apr/game.md)
 
 #### Características Visuales
 - **Tablero visual** con colores para cada elemento
@@ -145,6 +151,8 @@ cd app_proyecto_apr
 ### 1. Entrenar el Agente
 Ejecuta el script de entrenamiento para crear la Q-table:
 
+📘 Documentación detallada: [app_proyecto_apr/train.md](app_proyecto_apr/train.md)
+
 ```bash
 cd app_proyecto_apr
 python train.py
@@ -163,6 +171,8 @@ python train.py
 ### 2. Ejecutar el Agente
 Visualiza el agente usando la Q-table entrenada:
 
+📘 Documentación detallada: [app_proyecto_apr/game.md](app_proyecto_apr/game.md)
+
 ```bash
 cd app_proyecto_apr
 python game.py
@@ -175,7 +185,17 @@ python game.py
 4. Observa el panel inferior con los 5 rectángulos de información
 5. Presiona **ESC** para salir
 
-### 3. Analizar la Q-table
+### 3. Ejecutar en Consola (sin interfaz gráfica)
+Ejecuta una simulación textual del tablero y del agente:
+
+📘 Documentación detallada: [app_proyecto_apr/run.md](app_proyecto_apr/run.md)
+
+```bash
+cd app_proyecto_apr
+python run.py
+```
+
+### 4. Analizar la Q-table
 Inspecciona los valores Q aprendidos:
 
 ```bash
