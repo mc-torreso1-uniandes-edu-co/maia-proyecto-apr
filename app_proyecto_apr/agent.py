@@ -154,14 +154,16 @@ class q_learning_agent:
             self.q_table = df.to_numpy(dtype=float)
 
     def explore(self, episodes):
-        """Entrena al agente durante varios episodios y guarda la Q-table resultante.
+        """Entrena al agente durante varios episodios.
 
         Args:
             episodes: Número de episodios de entrenamiento.
         """
-        count_not_terminal = 0
-        count_is_terminal = 0
+        count_terminal = 0
+        count_non_terminal = 0
         sum_steps = 0
+        max_steps_terminal = 0
+        min_steps_terminal = 0
 
         for _ in range(episodes):
 
@@ -174,16 +176,22 @@ class q_learning_agent:
 
                 self.update_values(state, action, r, ns)
                 state = ns
+
             if self.env.is_terminal(state):
-                count_is_terminal += 1
-                sum_steps += self.  env.steps
-            else :
-                count_not_terminal += 1
+                count_terminal += 1
+                if self.env.steps > max_steps_terminal:
+                    max_steps_terminal = self.env.steps
+                if min_steps_terminal == 0 or self.env.steps < min_steps_terminal:
+                    min_steps_terminal = self.env.steps
+            else:
+                count_non_terminal += 1
+
+            sum_steps += self.env.steps
             
             self.decay_epsilon()
 
-        self.save_q_table()
-        return count_is_terminal, count_not_terminal, sum_steps
+        #self.save_q_table()
+        return count_terminal, count_non_terminal, sum_steps, max_steps_terminal, min_steps_terminal
 
     def explode(self, render_func=None, step_delay=1.0):
         """Ejecuta un episodio en modo demostración imprimiendo cada transición.
@@ -194,6 +202,8 @@ class q_learning_agent:
         """
         state = self.env.reset()
         done = False
+        result = []
+        reward = 0
 
         if render_func is not None:
             render_func(state)
@@ -201,8 +211,10 @@ class q_learning_agent:
         while not done:
             action = self.choose_action(state)
             ns, r, done, info = self.step(action)
+            reward += r
 
             print(f"Paso {info['step']} | {state} -> {action} -> {ns} | R={r}")
+            result.append((state, action, ns, r, reward, done))
 
             state = ns
             if render_func is not None:
@@ -212,3 +224,5 @@ class q_learning_agent:
 
         if render_func is not None:
             render_func(state)
+        
+        return result

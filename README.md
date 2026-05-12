@@ -23,14 +23,16 @@ El proyecto utiliza **Q-Learning** como algoritmo de aprendizaje y proporciona u
 
 ```
 maia-proyecto-apr/
-├── README.md                          # Este archivo
-└── app_proyecto_apr/                  # Aplicación principal
+├── README.md                         # Este archivo
+└── app_proyecto_apr/                 # Aplicación principal
    ├── agent.py                       # Implementación del agente Q-Learning
    ├── environment.py                 # Entorno RL (door-key-ball)
    ├── game.py                        # Interfaz visual con Pygame
    ├── train.py                       # Script de entrenamiento
+   ├── experiment.py                  # Barrido de alpha/episodios con análisis y explotación
    ├── run.py                         # Script para ejecutar el agente entrenado
    ├── q_table.csv                    # Q-table guardada (generada tras entrenamiento)
+   ├── experiment_results/            # Reportes TXT por experimento (informes)
    └── __pycache__/                   # Cache de Python
 ```
 
@@ -132,7 +134,7 @@ Aplicación Pygame que permite visualizar al agente en acción.
 
 ### Requisitos
 - Python 3.8+
-- pip o conda
+- pip o entorno base de Anaconda/Miniconda
 
 ### Dependencias
 ```bash
@@ -202,6 +204,20 @@ Inspecciona los valores Q aprendidos:
 cd app_proyecto_apr
 python analizar_q_table.py
 ```
+
+### 5. Ejecutar barrido de experimentos
+Ejecuta una malla de experimentos (ej. varias tasas de aprendizaje y cantidades de episodios). El script genera un reporte TXT por experimento y un resumen final en `experiment_results/`.
+
+```bash
+cd app_proyecto_apr
+python experiment.py
+# o invocar la función directamente:
+python -c "from experiment import run_grid_experiments; run_grid_experiments([0.1,0.2],[1,3])"
+```
+
+Los archivos se guardan en [app_proyecto_apr/experiment_results](app_proyecto_apr/experiment_results).
+
+📘 Documentación detallada: [app_proyecto_apr/experiment.md](app_proyecto_apr/experiment.md)
 
 ---
 
