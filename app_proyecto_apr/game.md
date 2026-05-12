@@ -1,7 +1,6 @@
 # Documentación de `game.py`
 
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
-
+[README](../README.md)
 ## ¿Qué hace este archivo?
 
 `game.py` implementa la aplicación visual del proyecto usando **Pygame**.

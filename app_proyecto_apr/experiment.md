@@ -1,5 +1,6 @@
 # Documentación de experiment.py
 
+[README](../README.md)
 Resumen breve
 ---------------
 `experiment.py` orquesta la ejecución de experimentos de entrenamiento y explotación del agente, genera un informe por experimento (archivo TXT) y escribe un resumen final comparativo (`experiment_results/summary_experiments.txt`).
@@ -15,6 +16,13 @@ Archivos de salida
 - Carpeta: `experiment_results/`
 - Por experimento: `reporte_alpha_<alpha>_episodios_<n>.txt` (informe TXT con tablas)
 - Resumen final: `experiment_results/summary_experiments.txt`
+
+Diagramas asociados
+-------------------
+- Fuente Mermaid: [secuencia_experimentos.mmd](secuencia_experimentos.mmd)
+- Imagen PNG: [secuencia_experimentos.png](secuencia_experimentos.png)
+
+Tipo de diagrama: secuencia.
 
 Contrato clave: `agent.explore()`
 --------------------------------

@@ -1,6 +1,6 @@
 # Documentación de `run.py`
 
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
+[README](../README.md)
 
 ## ¿Qué hace este archivo?
 

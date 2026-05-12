@@ -171,12 +171,12 @@ def run_exploitation(agent: q_learning_agent, max_steps: int | None = None) -> s
 
     lines.append(
         make_table(
-            headers=["step", "state", "action", "next_state", "reward", "reward_acum", "done"],
+            headers=["step", "state", "action", "next_state", "reward", "a_reward", "done"],
             rows=step_rows,
         )
     )
 
-    if done:
+    if agent.env.is_terminal(state):
         lines.append("resultado_terminal = True")
     else:
         lines.append("resultado_terminal = False")

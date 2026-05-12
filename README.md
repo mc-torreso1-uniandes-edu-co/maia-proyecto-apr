@@ -37,7 +37,11 @@ maia-proyecto-apr/
 ```
 
 ---
+### Documentación adicional
 
+- [Diagrama de clases y secuencias](app_proyecto_apr/diagramas.md)
+
+---
 ## Componentes Principales
 
 ### 1. **Entorno (environment.py)**
@@ -197,15 +201,7 @@ cd app_proyecto_apr
 python run.py
 ```
 
-### 4. Analizar la Q-table
-Inspecciona los valores Q aprendidos:
-
-```bash
-cd app_proyecto_apr
-python analizar_q_table.py
-```
-
-### 5. Ejecutar barrido de experimentos
+### 4. Ejecutar barrido de experimentos
 Ejecuta una malla de experimentos (ej. varias tasas de aprendizaje y cantidades de episodios). El script genera un reporte TXT por experimento y un resumen final en `experiment_results/`.
 
 ```bash

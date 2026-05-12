@@ -1,0 +1,20 @@
+sequenceDiagram
+    autonumber
+    actor Usuario
+    participant game as game.py / rl_game_app
+    participant agent as q_learning_agent
+    participant env as door_key_ball_environment
+
+    Usuario->>game: Ejecuta python game.py
+    game->>agent: load_q_table()
+    game->>game: reset()
+    loop Cada intervalo de tiempo
+        game->>agent: choose_action(state)
+        agent-->>game: action
+        game->>agent: step(action)
+        agent->>env: do_action(current_state, action)
+        env-->>agent: next_state, reward, done
+        agent-->>game: next_state, reward, done, info
+        game->>game: render(state)
+    end
+    game-->>Usuario: Visualización del episodio

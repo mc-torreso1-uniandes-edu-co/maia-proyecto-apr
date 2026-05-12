@@ -1,7 +1,6 @@
 # Documentación de `agent.py`
 
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
-
+[README](../README.md)
 ## ¿Qué hace este archivo?
 
 `agent.py` define la clase `q_learning_agent`, que implementa un agente de **Q-Learning** para interactuar con el entorno `door_key_ball_environment`.

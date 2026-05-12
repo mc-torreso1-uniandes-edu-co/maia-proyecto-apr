@@ -1,7 +1,6 @@
 # Documentación de `environment.py`
 
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
-
+[README](../README.md)
 ## ¿Qué hace este archivo?
 
 El archivo define la clase `door_key_ball_environment`, que implementa un entorno de **aprendizaje por refuerzo** para el problema de **puerta-llave-bola**.

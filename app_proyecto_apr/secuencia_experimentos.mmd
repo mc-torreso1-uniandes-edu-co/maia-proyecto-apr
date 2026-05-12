@@ -1,0 +1,28 @@
+sequenceDiagram
+    autonumber
+    actor Usuario
+    participant exp as experiment.py
+    participant agent as agent.py
+    participant env as environment.py
+    participant rep as experiment_results
+
+    Usuario->>exp: Ejecuta python experiment.py
+    exp->>exp: definir alphas y episodios
+    loop por episodios
+        loop por alpha
+            exp->>env: crear entorno
+            exp->>agent: crear agente(env)
+            exp->>agent: train(...)
+            loop entrenamiento
+                agent->>env: reset() / step()
+                env-->>agent: estado, reward, done
+                agent->>agent: update_values()
+            end
+            exp->>agent: explore()
+            agent-->>exp: terminales, no_terminales, sum_steps, max/min
+            exp->>rep: escribir reporte por experimento
+            exp->>exp: acumular fila de resumen
+        end
+    end
+    exp->>rep: escribir summary_experiments.txt
+    rep-->>Usuario: reportes txt y resumen final
