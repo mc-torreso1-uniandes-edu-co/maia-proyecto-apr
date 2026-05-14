@@ -1,6 +1,6 @@
 # Diagramas del proyecto
 
-[README](../README.md) 
+[README](../README.md)
 
 ## Diagrama de clases
 
@@ -8,7 +8,7 @@
 
 Figura: Diagrama de clases del entorno, el agente y la aplicación visual.
 
-## Diagrama de secuencia de entrenamientos
+## Diagrama de secuencia de entrenamiento
 
 ![Diagrama de secuencia de entrenamiento](secuencia_entrenamiento.png)
 
@@ -26,7 +26,32 @@ Figura: Secuencia de ejecución visual del agente en Pygame.
 
 Figura: Secuencia de ejecución de experimentos con variación de parámetros y generación de reportes.
 
-
 ---
+
+## Regenerar los diagramas
+
+Si editas archivos `.mmd`, puedes regenerar los PNG con Mermaid CLI (`mmdc`) o con el script incluido `generate_diagrams.py`.
+
+Instalar Mermaid CLI (requiere Node/npm):
+
+```bash
+npm install -g @mermaid-js/mermaid-cli
+```
+
+Generar manualmente un diagrama:
+
+```bash
+mmdc -i diagrama_clases.mmd -o diagrama_clases.png
+```
+
+Generar todos los `.mmd` del directorio con el script Python:
+
+```bash
+python generate_diagrams.py
+# o desde la raíz del repo:
+python app_proyecto_apr/generate_diagrams.py --dir app_proyecto_apr
+```
+
+[Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md) · [Experiment](experiment.md) · [Diagramas](diagramas.md)
 
 [⬅ Volver al README](../README.md)

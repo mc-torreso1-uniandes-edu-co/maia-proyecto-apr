@@ -41,6 +41,16 @@ maia-proyecto-apr/
 
 - [Diagrama de clases y secuencias](app_proyecto_apr/diagramas.md)
 
+- **Regenerar diagramas**: si editas los `.mmd`, instala Mermaid CLI y/o usa el script incluido:
+
+```bash
+# instalar Mermaid CLI (requiere Node/npm)
+npm install -g @mermaid-js/mermaid-cli
+
+# generar todos los diagramas desde el directorio de la app
+python app_proyecto_apr/generate_diagrams.py --dir app_proyecto_apr
+```
+
 ---
 ## Componentes Principales
 
@@ -142,7 +152,7 @@ Aplicación Pygame que permite visualizar al agente en acción.
 
 ### Dependencias
 ```bash
-pip install pygame numpy pandas
+pip install pygame numpy pandas matplotlib seaborn
 ```
 
 ### Configuración
@@ -166,13 +176,14 @@ python train.py
 
 **Salida esperada:**
 - Se entrena el agente durante N episodios
-- Se imprime progreso: episodio, recompensa acumulada, épsilon
+- Se imprime un resumen con episodios terminales, no terminales y pasos promedio
 - Se genera `q_table.csv` con la tabla de valores Q
+- Se generan gráficas en `app_proyecto_apr/experiment_results/` si existen los datos de historial:
+  - `learning_curve.png`
+  - `qtable_heatmap_states_actions.png`
 
-**Parámetros configurables en `train.py`:**
-- `num_episodes` - Número de episodios
-- `learning_rate` - Tasa de aprendizaje
-- `discount_factor` - Factor de descuento
+**Parámetro configurable en `train.py`:**
+- `episodes` - Número de episodios a entrenar
 
 ### 2. Ejecutar el Agente
 Visualiza el agente usando la Q-table entrenada:
@@ -323,6 +334,8 @@ Este proyecto enseña:
 ## Autores
 **Equipo 30 - 202612**  
 Universidad de los Andes
+
+[Environment](app_proyecto_apr/environment.md) · [Agent](app_proyecto_apr/agent.md) · [Train](app_proyecto_apr/train.md) · [Run](app_proyecto_apr/run.md) · [Game](app_proyecto_apr/game.md) · [Experiment](app_proyecto_apr/experiment.md) · [Diagramas](app_proyecto_apr/diagramas.md)
 
 ---
 

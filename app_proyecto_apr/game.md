@@ -1,6 +1,7 @@
 # Documentación de `game.py`
 
 [README](../README.md)
+
 ## ¿Qué hace este archivo?
 
 `game.py` implementa la aplicación visual del proyecto usando **Pygame**.
@@ -88,8 +89,6 @@ Recomendado: entrenar antes con `python train.py` para cargar una política úti
 - permite observar decisiones paso a paso,
 - ayuda en presentación y validación del aprendizaje.
 
----
-
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
+[Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md) · [Experiment](experiment.md) · [Diagramas](diagramas.md)
 
 [⬅ Volver al README](../README.md)

@@ -3,6 +3,7 @@ import numpy as np
 import random
 import pandas as pd
 import time
+from pathlib import Path
 
 class q_learning_agent:
     """Agente Q-learning que aprende una política a partir del entorno.
@@ -153,22 +154,31 @@ class q_learning_agent:
         else:
             self.q_table = df.to_numpy(dtype=float)
 
-    def explore(self, episodes):
+    def explore(self, episodes, track = False):
         """Entrena al agente durante varios episodios.
 
         Args:
             episodes: Número de episodios de entrenamiento.
+            track: Si es True, registra el historial de entrenamiento.
         """
         count_terminal = 0
         count_non_terminal = 0
         sum_steps = 0
         max_steps_terminal = 0
         min_steps_terminal = 0
+        # registro por episodio para análisis / curvas de aprendizaje
+        episode_rewards: list[float] = []
+        episode_steps: list[int] = []
+        episode_eps: list[float] = []
 
-        for _ in range(episodes):
+        for e in range(episodes):
 
             state = self.env.reset()
             done = False
+            episode_reward = 0.0
+
+            # registrar epsilon al inicio del episodio
+            episode_eps.append(self.epsilon)
         
             while not done:
                 action = self.choose_action(state)
@@ -176,8 +186,12 @@ class q_learning_agent:
 
                 self.update_values(state, action, r, ns)
                 state = ns
+                episode_reward += float(r)
 
-            if self.env.is_terminal(state):
+            terminal = self.env.is_terminal(state)
+
+
+            if terminal:
                 count_terminal += 1
                 if self.env.steps > max_steps_terminal:
                     max_steps_terminal = self.env.steps
@@ -186,11 +200,33 @@ class q_learning_agent:
             else:
                 count_non_terminal += 1
 
+            if track:    
+                color = "\033[92m" if terminal else "\033[91m"  # verde si terminal, rojo si no
+                print(f"{color}episodio: {e + 1:>3} | recompensa: {episode_reward:>+7.2f} | pasos: {self.env.steps:>4} | epsilon: {self.epsilon:.4f} | terminal:{terminal}\033[0m")
+
             sum_steps += self.env.steps
+            episode_rewards.append(episode_reward)
+            episode_steps.append(int(self.env.steps))
             
             self.decay_epsilon()
+            
 
         #self.save_q_table()
+        # guardar historial de entrenamiento para análisis externo
+        try:
+            base = Path(__file__).resolve().parent
+            out_dir = base / "experiment_results"
+            out_dir.mkdir(parents=True, exist_ok=True)
+            hist_path = out_dir / "training_history.csv"
+            pd.DataFrame({
+                "episode": list(range(1, len(episode_rewards) + 1)),
+                "reward": episode_rewards,
+                "steps": episode_steps,
+                "epsilon": episode_eps,
+            }).to_csv(hist_path, index=False)
+        except Exception:
+            pass
+        
         return count_terminal, count_non_terminal, sum_steps, max_steps_terminal, min_steps_terminal
 
     def explode(self, render_func=None, step_delay=1.0):

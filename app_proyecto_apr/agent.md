@@ -1,6 +1,7 @@
 # Documentación de `agent.py`
 
 [README](../README.md)
+
 ## ¿Qué hace este archivo?
 
 `agent.py` define la clase `q_learning_agent`, que implementa un agente de **Q-Learning** para interactuar con el entorno `door_key_ball_environment`.
@@ -86,20 +87,23 @@ Respeta también el corte por `max_steps` del entorno.
 
 ## Entrenamiento completo
 
-### `explore(episodes)`
+### `explore(episodes, track=False)`
 
 Entrena al agente durante `episodes` episodios:
 1. Reinicia entorno.
 2. Repite ciclo de acción-transición-actualización hasta terminar.
 3. Cuenta episodios terminales y no terminales.
-4. Acumula pasos en episodios terminales.
+4. Acumula pasos de todos los episodios.
 5. Aplica decaimiento de `epsilon` al final de cada episodio.
-6. Guarda la Q-table en `q_table.csv`.
+6. Si `track=True`, imprime trazas por episodio.
+7. Guarda historial de entrenamiento en `experiment_results/training_history.csv`.
 
 Retorna:
 - cantidad de episodios terminales,
 - cantidad de episodios no terminales,
-- suma de pasos en episodios terminales.
+- suma de pasos de todos los episodios,
+- máximo de pasos en episodios terminales,
+- mínimo de pasos en episodios terminales.
 
 ---
 
@@ -142,8 +146,6 @@ Ejecuta un episodio usando la política actual, imprimiendo cada transición y o
 - persiste el conocimiento en `q_table.csv`,
 - alimenta tanto `run.py` (consola) como `game.py` (interfaz visual).
 
----
-
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
+[Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md) · [Experiment](experiment.md) · [Diagramas](diagramas.md)
 
 [⬅ Volver al README](../README.md)

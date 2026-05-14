@@ -1,6 +1,7 @@
 # Documentación de `environment.py`
 
 [README](../README.md)
+
 ## ¿Qué hace este archivo?
 
 El archivo define la clase `door_key_ball_environment`, que implementa un entorno de **aprendizaje por refuerzo** para el problema de **puerta-llave-bola**.
@@ -129,8 +130,6 @@ Función núcleo de transición:
 
 Por eso, es la base para entrenar agentes (por ejemplo Q-learning), simular episodios y analizar comportamiento de política.
 
----
-
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
+[Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md) · [Experiment](experiment.md) · [Diagramas](diagramas.md)
 
 [⬅ Volver al README](../README.md)

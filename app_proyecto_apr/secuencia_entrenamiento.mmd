@@ -2,9 +2,11 @@ sequenceDiagram
     autonumber
     actor Usuario
     participant train as train.py
+    participant plot as plotting
     participant agent as q_learning_agent
     participant env as door_key_ball_environment
     participant fs as q_table.csv
+    participant history as training_history.csv
 
     Usuario->>train: Ejecuta python train.py
     train->>env: Crear entorno
@@ -21,5 +23,11 @@ sequenceDiagram
         agent->>agent: decay_epsilon()
     end
     agent->>fs: save_q_table(q_table.csv)
+    agent->>history: write training_history.csv (if track)
     fs-->>train: archivo guardado
+    history-->>train: historial guardado
+    train->>plot: plot_learning_curve(training_history.csv)
+    plot-->>train: learning_curve.png
+    train->>plot: plot_q_heatmap(q_table.csv)
+    plot-->>train: qtable_heatmap_states_actions.png
     train-->>Usuario: Resumen del entrenamiento

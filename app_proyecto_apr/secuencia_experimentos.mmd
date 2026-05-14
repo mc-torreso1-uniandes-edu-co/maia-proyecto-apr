@@ -5,6 +5,7 @@ sequenceDiagram
     participant agent as agent.py
     participant env as environment.py
     participant rep as experiment_results
+    participant history as training_history.csv
 
     Usuario->>exp: Ejecuta python experiment.py
     exp->>exp: definir alphas y episodios
@@ -20,6 +21,7 @@ sequenceDiagram
             end
             exp->>agent: explore()
             agent-->>exp: terminales, no_terminales, sum_steps, max/min
+            agent->>history: write training_history.csv (if track)
             exp->>rep: escribir reporte por experimento
             exp->>exp: acumular fila de resumen
         end

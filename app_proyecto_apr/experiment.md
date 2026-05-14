@@ -1,94 +1,123 @@
-# Documentación de experiment.py
+# Documentación de `experiment.py`
 
 [README](../README.md)
-Resumen breve
----------------
-`experiment.py` orquesta la ejecución de experimentos de entrenamiento y explotación del agente, genera un informe por experimento (archivo TXT) y escribe un resumen final comparativo (`experiment_results/summary_experiments.txt`).
 
-Propósito
---------
-- Ejecutar una malla de experimentos (grid) variando parámetros (por ejemplo, `alpha`, `episodios`).
-- Generar un reporte por experimento con tablas ASCII que contienen métricas de entrenamiento y explotación.
-- Generar al final un resumen global comparando los experimentos realizados.
+## ¿Qué hace este archivo?
 
-Archivos de salida
-------------------
+`experiment.py` orquesta la ejecución de experimentos de entrenamiento y explotación del agente, genera un informe por experimento (TXT) y escribe un resumen comparativo final en `experiment_results/summary_experiments.txt`.
+
+Su propósito es:
+- Ejecutar una malla de experimentos variando parámetros (por ejemplo `alpha` y `episodios`).
+- Generar un reporte por experimento con tablas ASCII de métricas de entrenamiento y explotación.
+- Generar un resumen global para comparar resultados.
+
+---
+
+## Archivos de salida
+
 - Carpeta: `experiment_results/`
-- Por experimento: `reporte_alpha_<alpha>_episodios_<n>.txt` (informe TXT con tablas)
+- Por experimento: `reporte_alpha_<alpha>_episodios_<n>.txt`
 - Resumen final: `experiment_results/summary_experiments.txt`
 
-Diagramas asociados
--------------------
+---
+
+## Diagramas asociados
+
 - Fuente Mermaid: [secuencia_experimentos.mmd](secuencia_experimentos.mmd)
 - Imagen PNG: [secuencia_experimentos.png](secuencia_experimentos.png)
 
 Tipo de diagrama: secuencia.
 
-Contrato clave: `agent.explore()`
---------------------------------
-El `experiment.py` asume que el agente implementa `explore()` con el siguiente contrato (orden y tipos):
+---
 
-- retorna 5 valores en este orden:
-  1. `terminales` (int): número de episodios que terminaron (terminales)
-  2. `no_terminales` (int): número de episodios no terminales
-  3. `sum_steps` (int): suma de pasos de todos los episodios (terminales + no terminales)
-  4. `max_pasos_terminales` (int): máximo de pasos observado entre episodios terminales
-  5. `min_pasos_terminales` (int): mínimo de pasos observado entre episodios terminales
+## Contrato clave: `agent.explore()`
 
-Nota: `prom_pasos_episodio` en los reportes se calcula como `sum_steps / episodios`.
+`experiment.py` asume que el agente implementa `explore()` y retorna 5 valores en este orden:
 
-Funciones principales (resumen)
------------------------------
-- `make_table(headers, rows)`
-  - Genera una tabla ASCII a partir de `headers` (lista de strings) y `rows` (lista de listas).
+1. `terminales` (int): episodios terminales.
+2. `no_terminales` (int): episodios no terminales.
+3. `sum_steps` (int): suma de pasos de todos los episodios.
+4. `max_pasos_terminales` (int): máximo de pasos en episodios terminales.
+5. `min_pasos_terminales` (int): mínimo de pasos en episodios terminales.
 
-- `summarize_q_table(agent)`
-  - Calcula estadísticas resumen de la Q-table del `agent` (si aplica). Usado para incluir resumen numérico en el informe.
+Nota: `prom_pasos_episodio` en reportes se calcula como `sum_steps / episodios`.
 
-- `run_exploitation(agent)`
-  - Ejecuta la fase de explotación con el agente y devuelve una tabla con: estados visitados, reward por episodio y `a_reward`.
-  
-- `write_experiment_report(path, ...)`
-  - Ensambla y escribe el informe TXT por experimento en `path`. Incluye secciones de entrenamiento, explotación y resumen de Q-table.
-  - Todos los encabezados dentro del informe están en minúsculas.
+---
 
-- `build_summary_row(params, metrics)`
-  - Prepara una fila del resumen global con los campos principales: `alpha`, `episodios`, `terminales`, `no_terminales`, `prom_pasos_episodio`, `max_pasos_terminales`, `min_pasos_terminales`, entre otros.
+## Funciones principales
 
-- `write_summary_txt(path, rows)`
-  - Escribe `summary_experiments.txt` con el conjunto de filas construidas por `build_summary_row`.
+### `make_table(headers, rows)`
 
-- `run_grid_experiments(alphas, episodios_list)`
-  - Función de alto nivel que itera la malla de valores. Nota: la lógica final itera primero por `episodios` y luego por `alphas` (orden: episodios → alphas).
+Genera una tabla ASCII a partir de `headers` (lista de strings) y `rows` (lista de listas).
 
-Formato y convenciones
-----------------------
-- Encabezados y secciones: siempre en minúsculas.
-- Reward y reward acumulada: formato `+6.2f` (ej: `+12.34`).
+### `summarize_q_table(agent)`
+
+Calcula estadísticas resumen de la Q-table del agente para incluirlas en el informe.
+
+### `run_exploitation(agent)`
+
+Ejecuta la fase de explotación y devuelve métricas como estados visitados, reward por episodio y reward acumulada.
+
+### `write_experiment_report(path, ...)`
+
+Ensambla y escribe el informe TXT por experimento en `path` con secciones de entrenamiento, explotación y resumen de Q-table.
+
+### `build_summary_row(params, metrics)`
+
+Construye una fila del resumen global con campos como `alpha`, `episodios`, `terminales`, `no_terminales`, `prom_pasos_episodio`, `max_pasos_terminales` y `min_pasos_terminales`.
+
+### `write_summary_txt(path, rows)`
+
+Escribe `summary_experiments.txt` con el conjunto de filas agregadas.
+
+### `run_grid_experiments(alphas, episodios_list)`
+
+Recorre la malla de valores y ejecuta los experimentos. La lógica actual itera primero por `episodios` y luego por `alphas`.
+
+---
+
+## Formato y convenciones
+
+- Encabezados y secciones de reportes: en minúsculas.
+- Reward y reward acumulada: formato `+6.2f` (ej. `+12.34`).
 - Tablas: estilo ASCII generado por `make_table()`.
-- No se escribe la Q-table por experimento (se eliminó el guardado CSV por experimento).
+- No se guarda Q-table por experimento en CSV.
 
-Ejemplos de ejecución
----------------------
-Ejecutar el script como módulo o importando la función de experimentos:
+---
+
+## ¿Cómo se usa?
+
+Desde la carpeta `app_proyecto_apr`:
 
 ```bash
 python experiment.py
-# o desde Python
+```
+
+O invocando la función directamente:
+
+```bash
 python -c "from experiment import run_grid_experiments; run_grid_experiments([0.1,0.2],[1,3])"
 ```
 
-Salida esperada
----------------
-- Archivos `reporte_alpha_<alpha>_episodios_<n>.txt` en `experiment_results/` con 3 secciones principales: entrenamiento, explotación y resumen de q-table.
-- Archivo `experiment_results/summary_experiments.txt` con una fila por experimento y las columnas de métricas comparativas (incluye `prom_pasos_episodio`, `max_pasos_terminales`, `min_pasos_terminales`).
+---
 
-Notas de implementación y mantenimiento
--------------------------------------
-- Si se modifica la API de `agent.explore()` hay que actualizar el contrato documentado arriba y todos los callers (`train.py`, `experiment.py`).
-- El generador de resumen asume que `sum_steps` incluye episodios terminales y no terminales.
-- Si desea que el resumen final se exporte también como CSV, se puede añadir una función auxiliar para convertir las filas ASCII en CSV; actualmente el flujo evita crear CSV intermedios.
+## Salida esperada
 
+- Archivos `reporte_alpha_<alpha>_episodios_<n>.txt` con secciones de entrenamiento, explotación y resumen de Q-table.
+- Archivo `experiment_results/summary_experiments.txt` con una fila por experimento.
 
-Autor: Equipo de desarrollo del proyecto
+---
+
+## Notas de mantenimiento
+
+- Si cambia la API de `agent.explore()`, actualizar `experiment.py`, `train.py` y esta documentación.
+- El resumen asume que `sum_steps` incluye episodios terminales y no terminales.
+
+---
+
+Autor: Equipo de desarrollo del proyecto  
 Fecha: 2026-05-12
+
+[Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md) · [Experiment](experiment.md) · [Diagramas](diagramas.md)
+
+[⬅ Volver al README](../README.md)

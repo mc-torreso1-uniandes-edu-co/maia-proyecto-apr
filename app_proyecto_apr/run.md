@@ -68,8 +68,6 @@ Si no hay Q-table entrenada, primero ejecuta `python train.py`.
 - Entornos sin GUI.
 - Depuración simple del flujo de estados y acciones en texto.
 
----
-
-[README](../README.md) · [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md)
+[Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md) · [Experiment](experiment.md) · [Diagramas](diagramas.md)
 
 [⬅ Volver al README](../README.md)
