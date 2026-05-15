@@ -260,6 +260,9 @@ class rl_game_app:
                         elif event.key == pygame.K_SPACE:
                             if self.done:
                                 self.reset()
+                                print("=" * 30)
+                                print("Reiniciando simulación...")
+                                print("=" * 30)
                                 self.started = True
                                 auto_running = True
                                 last_step_time = time.time()
