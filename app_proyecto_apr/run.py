@@ -3,7 +3,7 @@ from agent import q_learning_agent
 import time
 
 
-def render(state):
+def render(state: tuple[int, int, int, int, int]) -> None:
     """Imprime una representación ASCII del estado actual del tablero.
 
     Args:
@@ -26,7 +26,7 @@ def render(state):
     print("\n".join([" ".join(row) for row in grid]))
     print("-"*20)
 
-def run():
+def run() -> None:
     """Carga la Q-table y ejecuta una demostración en consola."""
     env = door_key_ball_environment()
     agent = q_learning_agent(env)

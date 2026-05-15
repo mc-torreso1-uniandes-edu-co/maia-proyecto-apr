@@ -14,11 +14,11 @@ import shutil
 import sys
 
 
-def find_mmdc():
+def find_mmdc() -> str | None:
     return shutil.which("mmdc")
 
 
-def generate(mmd_path: Path, mmdc_cmd: str):
+def generate(mmd_path: Path, mmdc_cmd: str) -> bool:
     out = mmd_path.with_suffix(".png")
     try:
         subprocess.run([mmdc_cmd, "-i", str(mmd_path), "-o", str(out)], check=True)
@@ -29,7 +29,7 @@ def generate(mmd_path: Path, mmdc_cmd: str):
         return False
 
 
-def main():
+def main() -> None:
     p = argparse.ArgumentParser(description="Generar PNGs desde archivos .mmd usando mmdc")
     p.add_argument("--dir", "-d", default='.', help="Directorio donde buscar archivos .mmd")
     args = p.parse_args()

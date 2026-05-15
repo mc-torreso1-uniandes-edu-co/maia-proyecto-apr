@@ -82,7 +82,7 @@ Lee `training_history.csv` y crea `learning_curve.png` con la recompensa origina
 
 #### `plot_q_heatmap(q_csv, out_dir)`
 
-Carga `q_table.csv` y genera `qtable_heatmap_states_actions.png` con los estados que tienen valores Q distintos de cero.
+Carga `q_table.csv` y genera `qtable_heatmap_states_actions.png` filtrando estados que tienen al menos un valor Q distinto de cero. En el eje Y muestra etiquetas para todos los estados filtrados y ajusta automáticamente el alto de la figura para mejorar la legibilidad.
 
 ---
 

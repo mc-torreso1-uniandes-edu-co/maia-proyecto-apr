@@ -35,19 +35,38 @@ METRIC_HEADERS = [
 ]
 
 def format_float(value: float) -> str:
-    """Convierte un valor decimal a un formato seguro para nombres de archivo."""
+    """Convierte un valor decimal a un formato seguro para nombres de archivo.
+
+    Args:
+        value: Número decimal a normalizar.
+
+    Returns:
+        Cadena apta para formar nombres de archivos.
+    """
     text = f"{value:.4f}".rstrip("0").rstrip(".")
     return text.replace("-", "m").replace(".", "_")
 
 
 def ensure_output_dir() -> Path:
-    """Crea la carpeta de salida si no existe."""
+    """Crea la carpeta de salida si no existe.
+
+    Returns:
+        Ruta absoluta a `experiment_results/`.
+    """
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     return OUTPUT_DIR
 
 
 def make_table(headers: list[str], rows: list[list[str]]) -> str:
-    """Construye una tabla ASCII con encabezado, separadores y cierre."""
+    """Construye una tabla ASCII con encabezado, separadores y cierre.
+
+    Args:
+        headers: Nombres de las columnas.
+        rows: Datos ya convertidos a texto.
+
+    Returns:
+        Tabla ASCII lista para incrustar en reportes de texto.
+    """
     widths = [len(header) for header in headers]
     for row in rows:
         for idx, value in enumerate(row):
@@ -64,7 +83,15 @@ def make_table(headers: list[str], rows: list[list[str]]) -> str:
 
 
 def summarize_q_table(agent: q_learning_agent, top_n: int = 10) -> str:
-    """Genera un análisis textual de la Q-table entrenada."""
+    """Genera un análisis textual de la Q-table entrenada.
+
+    Args:
+        agent: Agente entrenado que contiene la Q-table.
+        top_n: Cantidad de estados destacados a incluir.
+
+    Returns:
+        Texto con tablas ASCII y métricas resumidas de la Q-table.
+    """
     lines: list[str] = []
     q_table = agent.q_table
     total_states = len(agent.states)
@@ -137,7 +164,15 @@ def summarize_q_table(agent: q_learning_agent, top_n: int = 10) -> str:
 
 
 def run_exploitation(agent: q_learning_agent, max_steps: int | None = None) -> str:
-    """Ejecuta una explotación  y retorna el log en texto plano."""
+    """Ejecuta una fase de explotación y retorna el log en texto plano.
+
+    Args:
+        agent: Agente ya entrenado.
+        max_steps: Límite máximo de pasos durante la explotación.
+
+    Returns:
+        Registro textual con la secuencia de acciones, recompensas y estados.
+    """
     if max_steps is None:
         max_steps = agent.env.max_steps
 
@@ -198,6 +233,17 @@ def build_summary_row(
     training_summary: tuple[int, int, int, int, int],
     agent: q_learning_agent,
 ) -> dict[str, str]:
+    """Construye una fila de resumen para un experimento.
+
+    Args:
+        alpha: Tasa de aprendizaje usada.
+        episodes: Número de episodios ejecutados.
+        training_summary: Tupla retornada por `agent.explore()`.
+        agent: Agente entrenado para extraer métricas de la Q-table.
+
+    Returns:
+        Diccionario con métricas formateadas como texto.
+    """
     terminales, no_terminales, sum_steps, max_steps, min_steps = training_summary
 
     q_table = agent.q_table
@@ -233,7 +279,12 @@ def build_summary_row(
 
 
 def write_summary_txt(rows: list[dict[str, str]], output_path: Path) -> None:
-    """Escribe un resumen comparativo final en formato TXT."""
+    """Escribe un resumen comparativo final en formato TXT.
+
+    Args:
+        rows: Filas resumen generadas por `build_summary_row()`.
+        output_path: Ruta del archivo TXT de salida.
+    """
     if not rows:
         return
 
@@ -264,7 +315,16 @@ def write_experiment_report(
     exploitation_log: str,
     output_path: Path,
 ) -> None:
-    """Escribe el reporte completo del experimento en un archivo TXT."""
+    """Escribe el reporte completo del experimento en un archivo TXT.
+
+    Args:
+        alpha: Tasa de aprendizaje utilizada.
+        episodes: Número de episodios entrenados.
+        training_summary: Resumen devuelto por `agent.explore()`.
+        q_table_summary: Texto con el análisis de la Q-table.
+        exploitation_log: Texto con la traza de explotación.
+        output_path: Ruta donde se guardará el reporte.
+    """
     terminales, no_terminales, sum_steps, max_steps, min_steps = training_summary
 
     training_table = make_table(
@@ -294,7 +354,15 @@ def write_experiment_report(
 
 
 def train_and_analyze(alpha: float, episodes: int) -> tuple[Path, dict[str, str]]:
-    """Entrena, analiza y explota un experimento específico."""
+    """Entrena, analiza y explota un experimento específico.
+
+    Args:
+        alpha: Tasa de aprendizaje usada en el experimento.
+        episodes: Número de episodios a entrenar.
+
+    Returns:
+        Ruta del reporte generado y fila resumen del experimento.
+    """
     ensure_output_dir()
 
     env = door_key_ball_environment()
@@ -326,7 +394,15 @@ def run_grid_experiments(
     alphas: Iterable[float] = DEFAULT_ALPHAS,
     episode_counts: Iterable[int] = DEFAULT_EPISODES,
 ) -> tuple[list[Path], list[dict[str, str]]]:
-    """Ejecuta el barrido completo de hiperparámetros."""
+    """Ejecuta el barrido completo de hiperparámetros.
+
+    Args:
+        alphas: Valores de `alpha` a evaluar.
+        episode_counts: Cantidades de episodios a evaluar.
+
+    Returns:
+        Lista de rutas de reportes y lista de filas resumen.
+    """
     reports: list[Path] = []
     summary_rows: list[dict[str, str]] = []
     for episodes in episode_counts:
@@ -340,7 +416,10 @@ def run_grid_experiments(
 
 
 def main() -> None:
-    """Punto de entrada principal del script."""
+    """Punto de entrada principal del script.
+
+    Genera los reportes individuales y el resumen final de experimentos.
+    """
     print("\nIniciando experimentos...")
     reports, summary_rows = run_grid_experiments()
     write_summary_txt(summary_rows, SUMMARY_TXT)

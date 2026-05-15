@@ -8,11 +8,33 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def smooth(x, window=50):
+def smooth(x: pd.Series | np.ndarray | list[float], window: int = 50) -> np.ndarray:
+    """Suaviza una secuencia usando una media móvil.
+
+    Args:
+        x: Secuencia numérica a suavizar.
+        window: Tamaño de la ventana deslizante.
+
+    Returns:
+        ndarray con la serie suavizada.
+    """
     return pd.Series(x).rolling(window, min_periods=1).mean().to_numpy()
 
 
-def plot_learning_curve(history_csv: str | Path, out_dir: Path, window: int = 50):
+def plot_learning_curve(history_csv: str | Path, out_dir: Path, window: int = 50) -> Path | None:
+    """Genera la curva de aprendizaje a partir del historial de entrenamiento.
+
+    Lee `training_history.csv`, dibuja la recompensa original y la versión
+    suavizada, y guarda la imagen en `learning_curve.png`.
+
+    Args:
+        history_csv: Ruta del archivo con el historial.
+        out_dir: Carpeta de salida para la figura.
+        window: Ventana usada por `smooth()`.
+
+    Returns:
+        Ruta del archivo PNG generado o `None` si no fue posible crear la figura.
+    """
     try:
         df = pd.read_csv(history_csv)
     except Exception:
@@ -25,7 +47,7 @@ def plot_learning_curve(history_csv: str | Path, out_dir: Path, window: int = 50
     x = np.asarray(df['episode'].values) if 'episode' in df.columns else np.arange(len(y)) + 1
 
     plt.figure(figsize=(9, 5))
-    plt.plot(x, y, color='lightgray', alpha=0.7, label='original')
+    plt.plot(x, y, color='lightgray', alpha=0.9, label='original')
     plt.plot(x, smooth(y, window), color='tab:blue', label=f'suavizada (w={window})')
     plt.xlabel('Episodios')
     plt.ylabel('Recompensa')
@@ -40,7 +62,20 @@ def plot_learning_curve(history_csv: str | Path, out_dir: Path, window: int = 50
     return out_path
 
 
-def plot_q_heatmap(q_csv: str | Path, out_dir: Path):
+def plot_q_heatmap(q_csv: str | Path, out_dir: Path) -> Path | None:
+    """Genera un mapa de calor de la Q-table mostrando estados relevantes.
+
+    El gráfico filtra estados que tienen al menos un valor Q distinto de cero,
+    conserva las etiquetas de todos los estados filtrados en el eje Y y ajusta
+    automáticamente el alto de la figura para mejorar la legibilidad.
+
+    Args:
+        q_csv: Ruta del archivo CSV de la Q-table.
+        out_dir: Carpeta de salida para la figura.
+
+    Returns:
+        Ruta del archivo PNG generado o `None` si no fue posible crear la figura.
+    """
     try:
         df = pd.read_csv(q_csv)
     except Exception:
@@ -50,14 +85,17 @@ def plot_q_heatmap(q_csv: str | Path, out_dir: Path):
 
     if 'STATE' in df.columns:
         display = df.set_index('STATE')
-        # Filtrar filas donde todos los valores son cero
+
+        # Mostrar solo estados con al menos un valor Q distinto de cero
         display = display[(display != 0).any(axis=1)]
-        
+
         if len(display) == 0:
             return None
-        
-        plt.figure(figsize=(7, 5))
-        sns.heatmap(display, cmap='coolwarm', center=0)
+
+        figure_height = max(8, 0.25 * len(display))
+        plt.figure(figsize=(14, figure_height))
+        ax = sns.heatmap(display, cmap='coolwarm', center=0, yticklabels=list(display.index))
+        ax.set_yticklabels(display.index, rotation=0, fontsize=8)
         plt.xlabel('Acción')
         plt.ylabel('Estado')
         plt.title(f'Mapa de calor Q-table (estado vs acción) - {len(display)} estados aprendidos')
@@ -66,11 +104,16 @@ def plot_q_heatmap(q_csv: str | Path, out_dir: Path):
         plt.close()
         return out_path
 
-def train(episodes=500):
+def train(episodes: int = 500) -> None:
     """Entrena al agente durante la cantidad de episodios indicada.
 
     Args:
         episodes: Número de episodios usados para el entrenamiento.
+
+    Side Effects:
+        Guarda `q_table.csv`, actualiza `experiment_results/training_history.csv`
+        y genera las imágenes `learning_curve.png` y
+        `qtable_heatmap_states_actions.png` si los datos necesarios existen.
     """
     env = door_key_ball_environment()
     agent = q_learning_agent(env)
