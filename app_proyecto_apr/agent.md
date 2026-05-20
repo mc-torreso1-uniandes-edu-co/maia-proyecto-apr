@@ -4,7 +4,7 @@
 
 ## ¿Qué hace este archivo?
 
-`agent.py` define la clase `q_learning_agent`, que implementa un agente de **Q-Learning** para interactuar con el entorno `door_key_ball_environment`.
+`agent.py` define la clase `q_learning_agent`, que implementa un agente de **Q-Learning** para interactuar con el ambiente `door_key_ball_environment`.
 
 Su función principal es:
 - Seleccionar acciones (exploración/explotación).
@@ -20,7 +20,7 @@ Su función principal es:
 ### Inicialización (`__init__`)
 
 Recibe:
-- `env`: entorno RL.
+- `env`: ambiente RL.
 - `alpha`: tasa de aprendizaje.
 - `gamma`: factor de descuento.
 - `epsilon`: exploración inicial.
@@ -71,17 +71,17 @@ Reduce gradualmente la exploración multiplicando por `epsilon_decay` mientras `
 
 ---
 
-## Interacción con el entorno
+## Interacción con el ambiente
 
 ### `step(action)`
 
-Ejecuta una acción sobre el estado actual del entorno, actualiza `env.current_state`, incrementa pasos y retorna:
+Ejecuta una acción sobre el estado actual del ambiente, actualiza `env.current_state`, incrementa pasos y retorna:
 - `next_state`
 - `reward`
 - `done`
 - `info` con el paso actual
 
-Respeta también el corte por `max_steps` del entorno.
+Respeta también el corte por `max_steps` del ambiente.
 
 ---
 
@@ -90,7 +90,7 @@ Respeta también el corte por `max_steps` del entorno.
 ### `explore(episodes, track=False)`
 
 Entrena al agente durante `episodes` episodios:
-1. Reinicia entorno.
+1. Reinicia ambiente.
 2. Repite ciclo de acción-transición-actualización hasta terminar.
 3. Cuenta episodios terminales y no terminales.
 4. Acumula pasos de todos los episodios.

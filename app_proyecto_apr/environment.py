@@ -7,7 +7,7 @@ import pandas as pd
 State = tuple[int, int, int, int, int]
 
 class door_key_ball_environment:
-    """Entorno de aprendizaje por refuerzo del proyecto puerta-llave-bola.
+    """Ambiente de aprendizaje por refuerzo del proyecto puerta-llave-bola.
 
     El estado se representa como S = (R, C, KP, BP, DO), donde:
     R  = fila del agente.
@@ -16,7 +16,7 @@ class door_key_ball_environment:
     BP = bola recogida.
     DO = puerta abierta.
 
-    El entorno define el tablero, las reglas de transición, las acciones
+    El ambiente define el tablero, las reglas de transición, las acciones
     disponibles y la función de recompensa usada por el agente.
     """
 
@@ -178,7 +178,7 @@ class door_key_ball_environment:
         return True
 
     def get_current_state(self) -> State:
-        """Retorna el estado actual almacenado en el entorno.
+        """Retorna el estado actual almacenado en el ambiente.
 
         Returns:
             Tupla con el estado actual del agente.
@@ -268,17 +268,17 @@ class door_key_ball_environment:
         return [(next_state, reward, done)]
 
     def reset(self) -> State:
-        """Reinicia el entorno al estado inicial y pone el contador en cero.
+        """Reinicia el ambiente al estado inicial y pone el contador en cero.
 
         Returns:
-            Estado inicial del entorno.
+            Estado inicial del ambiente.
         """
         self.current_state = self.initial_state
         self.steps = 0
         return self.current_state
 
     def step_current(self, action: str) -> tuple[State, float, bool, dict[str, int]]:
-        """Aplica una acción sobre el estado actual y avanza el entorno.
+        """Aplica una acción sobre el estado actual y avanza el ambiente.
 
         Args:
             action: Acción a ejecutar.
@@ -444,7 +444,7 @@ class door_key_ball_environment:
         return states
 
     def generate_transition_table(self) -> pd.DataFrame:
-        """Construye una tabla de transiciones determinista para todo el entorno.
+        """Construye una tabla de transiciones determinista para todo el ambiente.
 
         Returns:
             `DataFrame` con columnas `S`, `A`, `NS`, `P`, `R` y `Terminal`.
@@ -467,7 +467,7 @@ class door_key_ball_environment:
         return pd.DataFrame(rows)
 
     def describe(self) -> dict[str, Any]:
-        """Devuelve un resumen legible de la configuración del entorno.
+        """Devuelve un resumen legible de la configuración del ambiente.
 
         Returns:
             Diccionario con parámetros del tablero, objetos, acciones y recompensas.

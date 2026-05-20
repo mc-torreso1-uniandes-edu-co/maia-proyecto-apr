@@ -20,7 +20,7 @@ La clase `rl_game_app` permite:
 
 Configura:
 - Pygame y ventana principal.
-- Entorno (`door_key_ball_environment`).
+- Ambiente (`door_key_ball_environment`).
 - Agente (`q_learning_agent`).
 - Carga de `q_table.csv` (si existe).
 - Parámetros visuales (tamaño de celdas, colores, fuentes, panel).
@@ -30,7 +30,7 @@ Si no encuentra Q-table, la app sigue funcionando pero muestra advertencia.
 ### Estado de simulación (`reset`)
 
 Reinicia:
-- estado del entorno,
+- estado del ambiente,
 - banderas de episodio,
 - última acción/recompensa,
 - acumulado de recompensa.
@@ -47,7 +47,7 @@ Reinicia:
 
 Realiza un paso automático:
 1. El agente elige acción.
-2. Se aplica en el entorno.
+2. Se aplica en el ambiente.
 3. Se actualiza estado local y acumulado.
 4. Se imprime traza en consola.
 

@@ -11,7 +11,7 @@ sequenceDiagram
     exp->>exp: definir alphas y episodios
     loop por episodios
         loop por alpha
-            exp->>env: crear entorno
+            exp->>env: crear ambiente
             exp->>agent: crear agente(env)
             exp->>agent: train(...)
             loop entrenamiento

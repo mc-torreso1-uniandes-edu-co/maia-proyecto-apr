@@ -8,7 +8,7 @@ from typing import Callable
 from environment import door_key_ball_environment
 
 class q_learning_agent:
-    """Agente Q-learning que aprende una política a partir del entorno.
+    """Agente Q-learning que aprende una política a partir del ambiente.
 
     El agente mantiene una Q-table indexada por estado y acción, y ofrece
     utilidades para seleccionar acciones, actualizar valores, guardar y
@@ -20,7 +20,7 @@ class q_learning_agent:
         """Inicializa el agente con hiperparámetros y la tabla Q vacía.
 
         Args:
-            env: Entorno con el que interactúa el agente.
+            env: Ambiente con el que interactúa el agente.
             alpha: Tasa de aprendizaje.
             gamma: Factor de descuento para recompensas futuras.
             epsilon: Probabilidad inicial de exploración.
@@ -46,7 +46,7 @@ class q_learning_agent:
         """Selecciona una acción usando exploración epsilon-greedy.
 
         Args:
-            state: Estado actual del entorno.
+            state: Estado actual del ambiente.
 
         Returns:
             Nombre de la acción seleccionada.
@@ -96,10 +96,10 @@ class q_learning_agent:
         self.q_table[s, a] = update_q
 
     def step(self, action: str) -> tuple[tuple[int, int, int, int, int], float, bool, dict[str, int]]:
-        """Ejecuta una acción en el entorno y devuelve la transición obtenida.
+        """Ejecuta una acción en el ambiente y devuelve la transición obtenida.
 
         Args:
-            action: Acción a ejecutar en el estado actual del entorno.
+            action: Acción a ejecutar en el estado actual del ambiente.
 
         Returns:
             Tupla con `next_state`, `reward`, `done` e información del paso.
@@ -147,7 +147,7 @@ class q_learning_agent:
 
         Behavior:
             Acepta con columna `STATE` y columnas de acciones. 
-            Solo carga estados que existen en el entorno y asigna 
+            Solo carga estados que existen en el ambiente y asigna
             los valores Q correspondientes.
         """
         df = pd.read_csv(path)

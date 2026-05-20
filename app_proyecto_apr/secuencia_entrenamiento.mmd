@@ -9,7 +9,7 @@ sequenceDiagram
     participant history as training_history.csv
 
     Usuario->>train: Ejecuta python train.py
-    train->>env: Crear entorno
+    train->>env: Crear ambiente
     train->>agent: Crear agente(env)
     loop Por cada episodio
         agent->>env: reset()

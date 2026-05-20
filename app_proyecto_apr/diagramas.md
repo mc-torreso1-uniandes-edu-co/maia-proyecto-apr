@@ -6,7 +6,7 @@
 
 ![Diagrama de clases](diagrama_clases.png)
 
-Figura: Diagrama de clases del entorno, el agente y la aplicación visual.
+Figura: Diagrama de clases del ambiente, el agente y la aplicación visual.
 
 ## Diagrama de secuencia de entrenamiento
 

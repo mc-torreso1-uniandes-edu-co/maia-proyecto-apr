@@ -31,7 +31,7 @@ Sirve para visualizar el episodio sin interfaz gráfica.
 
 ### `run()`
 
-1. Crea entorno y agente.
+1. Crea ambiente y agente.
 2. Intenta cargar `q_table.csv`.
 3. Si no existe, muestra advertencia.
 4. Fuerza explotación (`agent.epsilon = 0`).
@@ -65,7 +65,7 @@ Si no hay Q-table entrenada, primero ejecuta `python train.py`.
 
 `run.py` es útil para:
 - Validación rápida del comportamiento del agente.
-- Entornos sin GUI.
+- Ambientes sin GUI.
 - Depuración simple del flujo de estados y acciones en texto.
 
 [Environment](environment.md) · [Agent](agent.md) · [Train](train.md) · [Run](run.md) · [Game](game.md) · [Experiment](experiment.md) · [Diagramas](diagramas.md)

@@ -8,7 +8,7 @@ class rl_game_app:
     """Aplicación visual en Pygame para ejecutar el agente entrenado."""
 
     def __init__(self) -> None:
-        """Inicializa Pygame, el entorno, el agente y los elementos visuales.
+        """Inicializa Pygame, el ambiente, el agente y los elementos visuales.
 
         No recibe parámetros; la aplicación configura automáticamente el tablero,
         carga la Q-table y prepara la ventana gráfica.

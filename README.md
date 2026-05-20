@@ -13,7 +13,7 @@ mc-torreso1-uniandes-edu-co</br>
 
 ## Descripción General
 
-Este es un proyecto educativo de **Aprendizaje por Refuerzo (RL)** que implementa un agente inteligente capaz de aprender a navegar un entorno 2D complejo. El agente debe resolver una secuencia de tareas: recoger una llave, recoger una bola, abrir una puerta y finalmente escapar por la salida.
+Este es un proyecto educativo de **Aprendizaje por Refuerzo (RL)** que implementa un agente inteligente capaz de aprender a navegar un ambiente 2D complejo. El agente debe resolver una secuencia de tareas: recoger una llave, recoger una bola, abrir una puerta y finalmente escapar por la salida.
 
 El proyecto utiliza **Q-Learning** como algoritmo de aprendizaje y proporciona una interfaz visual en **Pygame** para observar el comportamiento del agente en tiempo real.
 
@@ -26,7 +26,7 @@ maia-proyecto-apr/
 ├── README.md                         # Este archivo
 └── app_proyecto_apr/                 # Aplicación principal
    ├── agent.py                       # Implementación del agente Q-Learning
-   ├── environment.py                 # Entorno RL (door-key-ball)
+   ├── environment.py                 # Ambiente RL (door-key-ball)
    ├── game.py                        # Interfaz visual con Pygame
    ├── train.py                       # Script de entrenamiento
    ├── experiment.py                  # Barrido de alpha/episodios con análisis y explotación
@@ -41,20 +41,10 @@ maia-proyecto-apr/
 
 - [Diagrama de clases y secuencias](app_proyecto_apr/diagramas.md)
 
-- **Regenerar diagramas**: si editas los `.mmd`, instala Mermaid CLI y/o usa el script incluido:
-
-```bash
-# instalar Mermaid CLI (requiere Node/npm)
-npm install -g @mermaid-js/mermaid-cli
-
-# generar todos los diagramas desde el directorio de la app
-python app_proyecto_apr/generate_diagrams.py --dir app_proyecto_apr
-```
-
 ---
 ## Componentes Principales
 
-### 1. **Entorno (environment.py)**
+### 1. **Ambiente (environment.py)**
 
 Define el mundo donde el agente aprende y actúa.
 
@@ -148,7 +138,7 @@ Aplicación Pygame que permite visualizar al agente en acción.
 
 ### Requisitos
 - Python 3.8+
-- pip o entorno base de Anaconda/Miniconda
+- pip o ambiente base de Anaconda/Miniconda
 
 ### Dependencias
 ```bash
@@ -305,7 +295,7 @@ pip install --upgrade pygame
 
 ### ❌ Memoria insuficiente
 - Reduce `num_episodes` en `train.py`
-- El entorno es pequeño, así que debería funcionar en cualquier máquina
+- El ambiente es pequeño, así que debería funcionar en cualquier máquina
 
 ---
 
@@ -323,7 +313,7 @@ Este proyecto enseña:
 
 ## Próximas Mejoras
 
-- [ ] Aumentar complejidad del entorno
+- [ ] Aumentar complejidad del ambiente
 - [ ] Implementar Deep Q-Learning (DQN)
 - [ ] Benchmarks de rendimiento
 - [ ] Exportar trayectorias para análisis

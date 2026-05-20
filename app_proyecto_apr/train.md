@@ -7,7 +7,7 @@
 `train.py` ejecuta el proceso de entrenamiento del agente de aprendizaje por refuerzo usando **Q-Learning**.
 
 Su responsabilidad principal es:
-- Crear el entorno `door_key_ball_environment`.
+- Crear el ambiente `door_key_ball_environment`.
 - Crear el agente `q_learning_agent`.
 - Lanzar la exploración/entrenamiento por un número de episodios.
 - Mostrar un resumen final de resultados.
@@ -21,8 +21,8 @@ Su responsabilidad principal es:
 ### Función `train(episodes=500)`
 
 Esta función:
-1. Instancia el entorno.
-2. Instancia el agente con ese entorno.
+1. Instancia el ambiente.
+2. Instancia el agente con ese ambiente.
 3. Ejecuta `agent.explore(episodes, track=True)` para registrar métricas por episodio.
 4. Imprime métricas agregadas del entrenamiento.
 5. Guarda `q_table.csv`.

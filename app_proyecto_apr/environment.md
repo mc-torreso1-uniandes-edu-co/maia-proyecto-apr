@@ -4,7 +4,7 @@
 
 ## ¿Qué hace este archivo?
 
-El archivo define la clase `door_key_ball_environment`, que implementa un entorno de **aprendizaje por refuerzo** para el problema de **puerta-llave-bola**.
+El archivo define la clase `door_key_ball_environment`, que implementa un ambiente de **aprendizaje por refuerzo** para el problema de **puerta-llave-bola**.
 
 Su objetivo es modelar:
 - El tablero y sus restricciones.
@@ -13,7 +13,7 @@ Su objetivo es modelar:
 - Las recompensas por acción.
 - La dinámica de transición entre estados.
 
-Este entorno es el “mundo” sobre el cual entrenan o evalúan los agentes de RL del proyecto.
+Este ambiente es el "mundo" sobre el cual entrenan o evalúan los agentes de RL del proyecto.
 
 ---
 
@@ -35,7 +35,7 @@ Estado inicial por defecto:
 
 ---
 
-## Configuración del entorno
+## Configuración del ambiente
 
 En `__init__` se definen:
 - Límites del tablero (`board`).
@@ -73,7 +73,7 @@ La clase define 6 acciones:
 
 ## Recompensas
 
-El entorno usa recompensas densas (positivas y negativas), por ejemplo:
+El ambiente usa recompensas densas (positivas y negativas), por ejemplo:
 - Recoger llave: `+3`
 - Recoger bola: `+2`
 - Abrir puerta: `+5`
@@ -89,7 +89,7 @@ Esto ayuda al agente a aprender secuencias útiles y evitar acciones sin progres
 ## Flujo principal de interacción
 
 ### `reset()`
-Reinicia el entorno al estado inicial y contador de pasos en cero.
+Reinicia el ambiente al estado inicial y contador de pasos en cero.
 
 ### `step_current(action)`
 Aplica una acción al estado actual y retorna:
